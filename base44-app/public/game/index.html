@@ -366,6 +366,32 @@ const f=window.fetch.bind(window);window.fetch=(u,o)=>f(R(u),o)})();
   #finale .nav{display:flex;gap:16px;justify-content:center;flex:none;opacity:0;transition:opacity .6s .5s}
   #finale .nav button{width:290px;height:58px;font-size:20px}
   #finale.on .totals,#finale.on .nav{opacity:1}
+
+  /* ---------- best on desktop splash (phones) ---------- */
+  #mobSplash{position:fixed;inset:0;z-index:40;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#1a0705}
+  #mobSplash.off{display:none}
+  #mobSplash .bg{position:absolute;inset:-4%;background:url(assets/tent-blur.webp) center/cover;filter:brightness(.62) saturate(1.1)}
+  #mobSplash .vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,rgba(255,190,90,.3),rgba(40,10,4,.2) 42%,rgba(11,5,3,.9) 100%)}
+  #mobSplash .wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:clamp(8px,2vh,22px);width:min(94vw,860px);max-height:100%;padding:clamp(8px,2.6vh,26px) 0;box-sizing:border-box}
+  #mobSplash .mlogo{width:min(42vw,26vh,300px);max-width:100%;filter:drop-shadow(4px 6px 0 rgba(11,9,7,.55)) drop-shadow(0 0 18px rgba(255,190,90,.3))}
+  #mobSplash .row{display:flex;align-items:flex-end;justify-content:center;gap:clamp(6px,2vw,20px);width:100%;min-height:0}
+  #mobSplash .mwho{height:clamp(84px,29vh,200px);width:auto;flex:none;filter:drop-shadow(0 6px 8px rgba(11,9,7,.5))}
+  #mobSplash .mcard{width:min(60vw,420px);padding:clamp(10px,2.6vw,24px) clamp(12px,3vw,26px);display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:clamp(4px,1vh,10px);text-align:center}
+  #mobSplash .mcard h2{font:800 clamp(15px,4.2vw,26px)/1.12 "Abhaya Libre",serif;color:#2a160b;text-shadow:0 1px 0 rgba(255,240,210,.6)}
+  #mobSplash .mcard p{font:400 clamp(11px,3vw,16px)/1.34 "Old Standard TT",serif;color:#3a2414}
+  #mobSplash .btns{display:flex;align-items:center;justify-content:center;gap:clamp(8px,2.4vw,16px)}
+  #mobSplash button{width:clamp(132px,33vw,220px);height:clamp(42px,7.5vh,60px);font-size:clamp(13px,3.3vw,20px);padding:0 6px 3px}
+  @media (orientation:landscape) and (max-height:600px){
+    #mobSplash .wrap{gap:clamp(5px,1.6vh,12px);padding:clamp(5px,2vh,14px) 0}
+    #mobSplash .mlogo{width:min(24vw,28vh,210px)}
+    #mobSplash .mwho{height:clamp(74px,31vh,150px)}
+    #mobSplash .mcard{width:min(52vw,400px);padding:clamp(8px,1.6vh,16px) clamp(12px,2vw,22px);gap:clamp(3px,.8vh,8px)}
+    #mobSplash .mcard h2{font-size:clamp(14px,2.1vw,22px)}
+    #mobSplash .mcard p{font:400 clamp(11px,1.55vw,14px)/1.28 "Old Standard TT",serif}
+    #mobSplash button{width:clamp(126px,24vw,196px);height:clamp(36px,10vh,52px);font-size:clamp(12px,1.7vw,18px)}
+  }
 </style>
 <script src="audio.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
@@ -434,7 +460,33 @@ const f=window.fetch.bind(window);window.fetch=(u,o)=>f(R(u),o)})();
     <div class="nav"><button class="go" id="finaleReplay">Play again from scène 1</button><button id="finaleStory">Watch the story</button></div>
   </div>
 </div>
+<div id="mobSplash" class="off" role="dialog" aria-label="Best enjoyed on a big screen"><div class="bg"></div><div class="vig"></div>
+  <div class="wrap">
+    <img class="mlogo" src="assets/ui/logo.webp" alt="Gaston Grandiose's Shadow Dept.">
+    <div class="row">
+      <img class="mwho" src="assets/loyal-talk-alpha.gif" alt="Gaston Grandiose">
+      <div class="card mcard">
+        <h2>Best enjoyed on a big screen</h2>
+        <p>Gaston's shadow theatre is built for desktop: you'll want a mouse and room to spin the props. Grab a laptop and join the show!</p>
+      </div>
+    </div>
+    <div class="btns"><button class="go" id="mobPlay">Play anyway</button><button id="mobCopy">Copy link</button></div>
+  </div>
+</div>
 <script>if(!/[?&](lvl|shot)=/.test(location.search)){document.getElementById("opening").classList.remove("off");document.body.classList.add("opening")}</script>
+<script>/* small screens get a "best on desktop" splash first (skippable, remembered, never in debug URLs) */
+(()=>{const S=document.getElementById('mobSplash');if(!S)return;
+  if(/[?&](lvl|shot)=/.test(location.search))return;
+  let ok=false;try{ok=localStorage.getItem('sd-mobile-ok')==='1'}catch(e){}
+  if(ok)return;
+  const small=matchMedia('(pointer: coarse)').matches||innerWidth<900||innerHeight<500;
+  if(!small)return;
+  S.classList.remove('off');
+  document.getElementById('mobPlay').onclick=()=>{try{localStorage.setItem('sd-mobile-ok','1')}catch(e){}S.classList.add('off')};
+  document.getElementById('mobCopy').onclick=e=>{const b=e.currentTarget,old=b.textContent;
+    const done=()=>{b.textContent='Link copied!';clearTimeout(b._t);b._t=setTimeout(()=>{b.textContent=old},1700)};
+    try{navigator.clipboard.writeText(location.href).then(done).catch(()=>{})}catch(err){}};
+})();</script>
 <script type="module">
 import * as THREE from 'three';
 import {GLTFLoader as GLTFLoader0} from 'three/addons/loaders/GLTFLoader.js';
