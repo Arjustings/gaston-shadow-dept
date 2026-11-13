@@ -28,6 +28,13 @@ Made by Arjun Haridas. Everything in this repository was written, modelled or ar
 | `blender/greenkey.py`, `checkerkey.py`, `cutout.py`, `split*.py`, `measure.py` | Image tools used to key, cut out and measure the 2D art |
 | `tools/base44/` | Packaging for Base44 (`build.py` compresses the props with meshopt and bundles the game) |
 | `tools/trailer/` | Trailer pipeline: scripted gameplay recorder, caption cards, ffmpeg edit |
+| `base44-app/public/game/` | Exact copy of the game code as it runs in the Base44 project today (`public/game/` in the app). New features, such as the finale, are built inside Base44 and mirrored here |
+
+## Development history
+
+1. Built and play-tested locally (this repo's `game/stage/`), with props modelled in Blender from the scripts in `blender/`.
+2. First published to Base44 as a packed bundle.
+3. Moved into the Base44 project as real source files under `public/game/`. Development continues inside Base44: the finale screen (Madame Aigre shakes Gaston's hand, total stars, replay) was built there.
 
 ## Running locally
 
