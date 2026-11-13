@@ -1,0 +1,14 @@
+<!doctype html><meta charset="utf-8"><title>Prop viewer</title>
+<style>html,body{margin:0;height:100%;background:#f3e8d2}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+const r=new THREE.WebGLRenderer({antialias:true});r.setSize(innerWidth,innerHeight);r.setPixelRatio(devicePixelRatio);document.body.appendChild(r.domElement);
+const s=new THREE.Scene();s.background=new THREE.Color('#f3e8d2');
+const c=new THREE.PerspectiveCamera(30,innerWidth/innerHeight,.1,200);c.position.set(2.5,4,30);c.lookAt(2.5,1.5,0);
+s.add(new THREE.HemisphereLight('#fff4e0','#b08a60',1.6));const d=new THREE.DirectionalLight('#ffe2b0',2.2);d.position.set(-5,8,6);s.add(d);
+const L=new GLTFLoader();window.info=[];
+[['lamp',-3.6],['teapot-v1',0],['fork',3.4],['baguette',5.6],['fan',8.6]].forEach(([n,x])=>L.load('../assets/'+n+'.glb',g=>{g.scene.position.x=x;s.add(g.scene);
+ g.scene.traverse(o=>{if(o.isMesh)window.info.push(n+':'+o.name+':'+(Array.isArray(o.material)?'multi':o.material.name+'#'+o.material.color.getHexString()+(o.material.side===2?':double':'')))})}));
+r.setAnimationLoop(()=>{s.rotation.y=Math.sin(performance.now()/1500)*.5;r.render(s,c)});
+</script>

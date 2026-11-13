@@ -1,0 +1,42 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@800&family=League+Gothic&family=Rye&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hidden}
+  .cap{position:absolute;left:50%;bottom:84px;transform:translateX(-50%);max-width:1400px;padding:22px 56px 26px;
+    font:800 50px/1.2 "Abhaya Libre",serif;color:#2a160b;text-align:center;white-space:nowrap;
+    background:#f3e3b8 url(../../assets/paper.png) center/420px;background-blend-mode:multiply;
+    box-shadow:0 0 0 4px #3a1a08,0 0 0 9px #d9a640,0 0 0 12px #3a1a08,10px 14px 0 12px rgba(11,9,7,.45)}
+  .cap.quote{font-style:italic}
+  .beat{position:absolute;left:50%;bottom:96px;padding:18px 44px 14px;font:400 78px/1 "Rye",serif;color:#f6e7c0;
+    background:#a31d14;letter-spacing:1px;text-shadow:3px 3px 0 #2a0c06;
+    box-shadow:0 0 0 4px #2a0c06,0 0 0 10px #e0b04a,0 0 0 13px #2a0c06,12px 14px 0 13px rgba(0,0,0,.45);transform:translateX(-50%) rotate(-2deg);white-space:nowrap}
+  .beat.r{transform:translateX(-50%) rotate(2deg)}
+  .mid{position:absolute;inset:0;display:grid;place-items:center}
+  .mid div{font:400 92px/1.15 "Rye",serif;color:#f6e7c0;text-align:center;text-shadow:4px 5px 0 #2a0c06,0 0 40px rgba(0,0,0,.6)}
+  .end{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,rgba(30,12,4,.25),rgba(8,4,2,.92) 75%),url(../../assets/tent-blur.png) center/cover;}
+  .end img{position:absolute;left:50%;top:24px;width:980px;transform:translateX(-50%)}
+  .end .play{position:absolute;left:0;right:0;top:712px;text-align:center;font:400 64px/1 "Rye",serif;color:#f6e7c0;text-shadow:3px 4px 0 #2a0c06}
+  .end .url{position:absolute;left:50%;top:808px;transform:translateX(-50%);padding:14px 40px 12px;font:400 50px/1 "League Gothic",sans-serif;letter-spacing:2px;color:#2a160b;
+    background:#f3e3b8 url(../../assets/paper.png) center/420px;background-blend-mode:multiply;box-shadow:0 0 0 4px #3a1a08,0 0 0 9px #d9a640,0 0 0 12px #3a1a08}
+  .end .small{position:absolute;left:0;right:0;top:926px;text-align:center;font:400 34px/1 "League Gothic",sans-serif;letter-spacing:6px;color:#d9b77a;text-transform:uppercase}
+</style></head><body>
+<script>
+const C={
+  c1:['cap','Paris, 1899. Opening night at the Cirque Grandiose.'],
+  c2:['cap','Then the monkeys got into the shadow puppets.'],
+  c3:['cap','And the cruellest critic in Paris is coming tonight.'],
+  c4:['cap','All that is left: one lamp and a heap of junk.'],
+  c5:['cap quote','“You there! Make me shadows, or I am ruined!”'],
+  g1:['beat','Arrange odd objects'],
+  g2:['beat r','Light the lamp'],
+  g3:['beat','Please the crowd'],
+  g4:['beat r','Or face the tomatoes'],
+  g5:['beat','Win over the critic'],
+  f1:['cap','Ten scenes. One lamp. No refunds.'],
+};
+const k=new URLSearchParams(location.search).get('c')||'c1';
+if(k==='end'){document.body.innerHTML='<div class="end"><img src="../../assets/logo-gaston-grandiose.png"><div class="play">Play free in your browser</div><div class="url">amorphous-shadow-sculpt-lab.base44.app</div><div class="small">Built on Base44</div></div>'}
+else{const [cls,txt]=C[k];document.body.innerHTML=cls==='mid'?`<div class="mid"><div>${txt}</div></div>`:`<div class="${cls}">${txt}</div>`}
+</script>
+</body></html>

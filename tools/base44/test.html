@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8"><title>Base44 bundle test</title>
+<style>html,body{margin:0;background:#0b0907;color:#f3e8d2;font:16px Georgia}iframe{position:fixed;inset:0;width:100vw;height:100vh;border:0}</style>
+<div id="s">loading…</div>
+<script type="module">
+// Local stand-in for loader.jsx (same steps) to test game.zip before it goes to Base44.
+import { unzipSync, strFromU8 } from 'https://cdn.jsdelivr.net/npm/fflate@0.8.2/esm/browser.js';
+const MIME = { js:'text/javascript', glb:'model/gltf-binary', png:'image/png', webp:'image/webp', gif:'image/gif', jpg:'image/jpeg', mp3:'audio/mpeg' };
+const parts = await Promise.all(['game.zip', 'models.zip'].map(async u => unzipSync(new Uint8Array(await (await fetch(u + '?' + Date.now())).arrayBuffer()))));
+const files = Object.assign({}, ...parts), map = {};
+for (const [name, data] of Object.entries(files)) {
+  if (name.endsWith('/') || name === 'index.html') continue;
+  map[name] = URL.createObjectURL(new Blob([data], { type: MIME[name.split('.').pop()] || 'application/octet-stream' }));
+}
+let html = strFromU8(files['index.html']);
+html = html.replace(/assets\/[\w\-./]+\.(?:png|webp|gif|glb|mp3|jpg)/g, m => map[m] || m)
+  .replace('src="audio.js"', 'src="' + map['audio.js'] + '"')
+  .replace('<head>', '<head><script>window.__F=' + JSON.stringify(map) + '</' + 'script>');
+const f = document.createElement('iframe'); f.allow = 'autoplay; fullscreen';
+f.src = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+document.getElementById('s').remove(); document.body.appendChild(f); window.gameFrame = f;
+</script>
