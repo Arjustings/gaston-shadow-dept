@@ -35,6 +35,7 @@ Made by Arjun Haridas. Everything in this repository was written, modelled or ar
 1. Built and play-tested locally (this repo's `game/stage/`), with props modelled in Blender from the scripts in `blender/`.
 2. First published to Base44 as a packed bundle.
 3. Moved into the Base44 project as real source files under `public/game/`. Development continues inside Base44: the finale screen (Madame Aigre shakes Gaston's hand, total stars, replay) and a "best on a big screen" splash for phones were built there.
+4. Hall of Fame (built in Base44, Nov 2026): a `HallOfFameEntry` entity in the Base44 database (name, scene, score, review), a "Sign the Hall of Fame" button on review cards scoring 70%+, and a public [/hall-of-fame](https://amorphous-shadow-sculpt-lab.base44.app/hall-of-fame) page (top 50, filter by scene) linked from the title and finale screens. The game-side code is in `base44-app/public/game/index.html`; the page and entity live in the Base44 project.
 
 ## Running locally
 
